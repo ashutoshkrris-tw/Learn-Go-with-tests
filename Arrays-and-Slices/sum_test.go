@@ -1,6 +1,9 @@
 package arrays_slices
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 func TestSum(t *testing.T) {
 
@@ -23,9 +26,18 @@ func TestSum(t *testing.T) {
 	})
 }
 
+func TestSumAll(t *testing.T) {
+	got := SumAll([]int{1, 2}, []int{0, 9})
+	wanted := []int{3, 9}
+
+	if !reflect.DeepEqual(got, wanted) {
+		t.Errorf("\nActual: %v\nExpected: %v", got, wanted)
+	}
+}
+
 func assertCorrectMessage(t testing.TB, got int, wanted int) {
 	t.Helper()
 	if got != wanted {
-		t.Errorf("\nActual: %q\nExpected: %q", got, wanted)
+		t.Errorf("\nActual: %d\nExpected: %d", got, wanted)
 	}
 }
