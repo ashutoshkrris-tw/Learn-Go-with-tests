@@ -26,13 +26,27 @@ func TestSum(t *testing.T) {
 	})
 }
 
-func TestSumAll(t *testing.T) {
-	got := SumAll([]int{1, 2}, []int{0, 9})
-	wanted := []int{3, 9}
+func TestSumAllTails(t *testing.T) {
 
-	if !reflect.DeepEqual(got, wanted) {
-		t.Errorf("\nActual: %v\nExpected: %v", got, wanted)
+	checkSums := func(t testing.TB, got, wanted []int) {
+		t.Helper()
+		if !reflect.DeepEqual(got, wanted) {
+			t.Errorf("got %v want %v", got, wanted)
+		}
 	}
+
+	t.Run("make the sums of tails of", func(t *testing.T) {
+		got := SumAllTails([]int{1, 2}, []int{0, 9})
+		wanted := []int{2, 9}
+		checkSums(t, got, wanted)
+	})
+
+	t.Run("safely sum empty slices", func(t *testing.T) {
+		got := SumAllTails([]int{}, []int{3, 4, 5})
+		wanted := []int{0, 9}
+		checkSums(t, got, wanted)
+	})
+
 }
 
 func assertCorrectMessage(t testing.TB, got int, wanted int) {
