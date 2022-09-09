@@ -6,23 +6,36 @@ import (
 
 func TestArea(t *testing.T) {
 
-	checkArea := func(t testing.TB, shape Shape, wanted float64) {
-		t.Helper()
-		got := shape.Area()
-
-		if got != wanted {
-			t.Errorf("\nActual: %g\nExpected: %g", got, wanted)
-		}
+	areaTests := []struct {
+		name    string
+		shape   Shape
+		hasArea float64
+	}{
+		{
+			name:    "Rectangle",
+			shape:   Rectangle{length: 10, breadth: 10},
+			hasArea: 100.0,
+		},
+		{
+			name:    "Circle",
+			shape:   Circle{radius: 10},
+			hasArea: 314.1592653589793,
+		},
+		{
+			name:    "Triangle",
+			shape:   Triangle{base: 12, height: 6},
+			hasArea: 36.0,
+		},
 	}
 
-	t.Run("should return area of rectangles", func(t *testing.T) {
-		rectangle := Rectangle{10.0, 10.0}
-		checkArea(t, rectangle, 100.0)
-	})
+	for _, tt := range areaTests {
 
-	t.Run("should return area of circles", func(t *testing.T) {
-		circle := Circle{10}
-		checkArea(t, circle, 314.1592653589793)
-	})
+		t.Run(tt.name, func(t *testing.T) {
+			got := tt.shape.Area()
+			if got != tt.hasArea {
+				t.Errorf("\n%#v\nActual: %g\nExpected: %g", tt.shape, got, tt.hasArea)
+			}
+		})
 
+	}
 }
