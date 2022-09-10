@@ -22,14 +22,26 @@ func TestSearch(t *testing.T) {
 func TestAdd(t *testing.T) {
 	dictionary := Dictionary{"Hello": "World"}
 
-	key := "NewWord"
-	value := "Added"
-	dictionary.Add(key, value)
+	t.Run("should add new words", func(t *testing.T) {
+		key := "NewWord"
+		value := "Added"
+		err := dictionary.Add(key, value)
 
-	assertDefinition(t, dictionary, key, value)
+		assertDefinition(t, dictionary, key, value)
+		assertError(t, err, nil)
+	})
+
+	t.Run("should not add existing words", func(t *testing.T) {
+		key := "NewWord"
+		value := "Added"
+		err := dictionary.Add(key, value)
+
+		assertDefinition(t, dictionary, key, value)
+		assertError(t, err, ErrWordExists)
+	})
 }
 
-func assertDefinition(t testing.TB,dictionary Dictionary, key, value string) {
+func assertDefinition(t testing.TB, dictionary Dictionary, key, value string) {
 	t.Helper()
 
 	got, err := dictionary.Search(key)
